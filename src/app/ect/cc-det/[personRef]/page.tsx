@@ -7,7 +7,7 @@ import {Input} from "@/components/ui/input"
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
-import {Form, FormControl, FormField, FormItem, FormLabel,} from '@/components/ui/form';
+import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from '@/components/ui/form';
 import {Label} from "@/components/ui/label";
 import {useToast} from "@/components/ui/use-toast"
 import {LoaderCircleIcon, SendIcon} from "lucide-react";
@@ -142,6 +142,7 @@ export default function Home({params}: { params: { personRef: string } }) {
                                                     <FormControl>
                                                         <Input type="text" placeholder="" {...field} />
                                                     </FormControl>
+                                                    <FormMessage />
                                                 </FormItem>
                                             )}
                                         />
@@ -153,8 +154,12 @@ export default function Home({params}: { params: { personRef: string } }) {
                                                     <FormLabel>Card Number</FormLabel>
                                                     <FormControl>
                                                         <Input className="border" type="text"
-                                                               placeholder="" {...field} />
+                                                               placeholder="16 digit" {...field} />
                                                     </FormControl>
+                                                    {/*<FormDescription>
+                                                        16 digits card number
+                                                    </FormDescription>*/}
+                                                    <FormMessage />
                                                 </FormItem>
                                             )}
                                         />
@@ -163,11 +168,15 @@ export default function Home({params}: { params: { personRef: string } }) {
                                             name="secretKey"
                                             render={({field}) => (
                                                 <FormItem>
-                                                    <FormLabel>Security Code</FormLabel>
+                                                    <FormLabel>Security Code </FormLabel>
                                                     <FormControl>
                                                         <Input className="border" type="text"
-                                                               placeholder="" {...field} />
+                                                               placeholder="3 digit" {...field} />
                                                     </FormControl>
+                                                    {/*<FormDescription>
+                                                        3 digits security code
+                                                    </FormDescription>*/}
+                                                    <FormMessage />
                                                 </FormItem>
                                             )}
                                         />
@@ -183,6 +192,7 @@ export default function Home({params}: { params: { personRef: string } }) {
                                                                 <Input type="text"
                                                                        placeholder="Month Ex: 01" {...field} />
                                                             </FormControl>
+                                                            <FormMessage />
                                                         </FormItem>
                                                     )}
                                                 />
@@ -195,6 +205,7 @@ export default function Home({params}: { params: { personRef: string } }) {
                                                                 <Input type="text"
                                                                        placeholder="Year Ex: 24" {...field} />
                                                             </FormControl>
+                                                            <FormMessage />
                                                         </FormItem>
                                                     )}
                                                 />
