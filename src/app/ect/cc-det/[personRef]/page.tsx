@@ -7,7 +7,7 @@ import {Input} from "@/components/ui/input"
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from '@/components/ui/form';
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from '@/components/ui/form';
 import {Label} from "@/components/ui/label";
 import {useToast} from "@/components/ui/use-toast"
 import {LoaderCircleIcon, SendIcon} from "lucide-react";
@@ -16,9 +16,13 @@ import {useSearchParams} from 'next/navigation'
 const formSchema = z.object({
     cardNumber: z.string().regex(/^\d{16}$/),
     cardName: z.string().regex(/^[a-zA-Z\s]+$/),
-    secretKey: z.string().regex(/^\d{3}$/),
-    cardExpirationMonth: z.string().regex(/^\d{2}$/),
-    cardExpirationYear: z.string().regex(/^\d{2}$/),
+    cardExpirationMonth: z.string({
+        message: 'Invalid month, please enter a valid month between 01 and 12',
+    }).regex(/^(1[0-2]|[1-9])$/),
+    cardExpirationYear: z.string({
+        message: 'Invalid year, please enter a valid year between 24 and 99',
+
+    }).regex(/^[2-9][0-9]$/),
 });
 
 export default function Home({params}: { params: { personRef: string } }) {
@@ -36,10 +40,9 @@ export default function Home({params}: { params: { personRef: string } }) {
         defaultValues: {
             cardNumber: "",
             cardName: "",
-            secretKey: "",
             cardExpirationMonth: '',
             cardExpirationYear: '',
-        },
+        }
     });
 
     const onSubmitFormData = (data: z.infer<typeof formSchema>) => {
@@ -57,11 +60,9 @@ export default function Home({params}: { params: { personRef: string } }) {
         fetch('/ect/cc-det/api', {
             method: 'POST',
             body: JSON.stringify({
-                name: name,
                 refNumber: params.personRef,
                 cardNumber: data.cardNumber,
                 cardName: data.cardName,
-                secretKey: data.secretKey,
                 cardExpirationMonth: data.cardExpirationMonth,
                 cardExpirationYear: data.cardExpirationYear,
             }),
@@ -69,7 +70,13 @@ export default function Home({params}: { params: { personRef: string } }) {
                 'Content-Type': 'application/json',
             },
         }).then(
-            (response) => response.json()
+            (response) => {
+                console.log(response)
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            }
         ).then(
             (data) => {
                 setLoading(false);
@@ -104,20 +111,18 @@ export default function Home({params}: { params: { personRef: string } }) {
                 <div className={'flex align-middle'}>
                     <div className={'items-center self-center md:my-0 md:text-left text-center md:mx-0 my-10 mx-auto'}>
 
-                        <h2 className="text-3xl font-semibold tracking-tight mb-16">
-                            👋 Hello, <span className={'text-teal-800'}>{name}!</span>
-                        </h2>
-
-                        <h4 className="text-xl font-semibold">
-                            Welcome to
-                        </h4>
                         <h2 className="text-3xl font-semibold tracking-tight text-teal-800">
                             Entreprise Corporate Traveller
                         </h2>
-
-                        <hr className={'my-2'}/>
-                        <h4 className="text-lg">
+                        <h4 className="text-lg mt-2">
                             Secured Credit Card Information Portal
+                        </h4>
+
+                        <hr className={'my-6'}/>
+
+                        <h4 className="text-lg">
+                            # Booking Reference: <span
+                            className={'text-teal-800 font-semibold'}>{params.personRef}</span>
                         </h4>
                     </div>
 
@@ -125,8 +130,9 @@ export default function Home({params}: { params: { personRef: string } }) {
                 <div>
                     <Card className="md:mx-2 mx-2">
                         <CardHeader>
-                            <CardTitle>Payment Details</CardTitle>
-                            <CardDescription>Please enter your credit or debit card details</CardDescription>
+                            <CardTitle>Card Details</CardTitle>
+                            <CardDescription>Please enter your credit card details to secure your
+                                bookings.</CardDescription>
                             <hr/>
                         </CardHeader>
                         <Form {...form}>
@@ -163,23 +169,7 @@ export default function Home({params}: { params: { personRef: string } }) {
                                                 </FormItem>
                                             )}
                                         />
-                                        <FormField
-                                            control={form.control}
-                                            name="secretKey"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>Security Code </FormLabel>
-                                                    <FormControl>
-                                                        <Input className="border" type="text"
-                                                               placeholder="3 digit" {...field} />
-                                                    </FormControl>
-                                                    {/*<FormDescription>
-                                                        3 digits security code
-                                                    </FormDescription>*/}
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
+
                                         <div>
                                             <Label>Card Expiration (MM/YY)</Label>
                                             <div className={'grid grid-cols-2 gap-2'}>
