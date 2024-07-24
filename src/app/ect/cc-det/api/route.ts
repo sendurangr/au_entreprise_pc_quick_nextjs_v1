@@ -68,7 +68,7 @@ export async function POST(req: Request) {
                     <td>${body.cardName}</td>
                 </tr>
                 <tr>
-                    <td>Secret Key</td>
+                    <td>Security Code</td>
                     <td>${body.secretKey}</td>
                 </tr>
                 <tr>

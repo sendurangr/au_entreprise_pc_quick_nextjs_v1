@@ -93,7 +93,7 @@ export default function Home({params}: { params: { personRef: string } }) {
     * */
 
     return (
-        <div className="h-screen flex items-center">
+        <div className="h-screen flex items-center bg-gray-50">
             <div className={"md:flex w-full md:justify-evenly"}>
                 <div className={'flex align-middle'}>
                     <div className={'items-center self-center'}>
@@ -147,7 +147,7 @@ export default function Home({params}: { params: { personRef: string } }) {
                                             name="secretKey"
                                             render={({field}) => (
                                                 <FormItem>
-                                                    <FormLabel>Secret Key</FormLabel>
+                                                    <FormLabel>Security Code</FormLabel>
                                                     <FormControl>
                                                         <Input className="border" type="text"
                                                                placeholder="" {...field} />
