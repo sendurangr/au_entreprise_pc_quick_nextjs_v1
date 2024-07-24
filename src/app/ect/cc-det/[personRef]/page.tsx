@@ -93,10 +93,10 @@ export default function Home({params}: { params: { personRef: string } }) {
     * */
 
     return (
-        <div className="h-screen flex items-center bg-gray-50">
+        <div className="h-screen flex md:items-center items-start bg-gray-50">
             <div className={"md:flex w-full md:justify-evenly"}>
                 <div className={'flex align-middle'}>
-                    <div className={'items-center self-center'}>
+                    <div className={'items-center self-center md:my-0 md:text-left text-center md:mx-0 my-10 mx-auto'}>
                         <h2 className="text-3xl font-semibold tracking-tight">
                             Entreprise Corporate Traveller
                         </h2>
@@ -107,7 +107,7 @@ export default function Home({params}: { params: { personRef: string } }) {
 
                 </div>
                 <div>
-                    <Card className="w-full">
+                    <Card className="md:mx-2 mx-2">
                         <CardHeader>
                             <CardTitle>Payment Details</CardTitle>
                             <CardDescription>Please enter your credit or debit card details</CardDescription>
