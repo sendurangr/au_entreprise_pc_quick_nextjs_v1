@@ -57,6 +57,7 @@ export default function Home({params}: { params: { personRef: string } }) {
         fetch('/ect/cc-det/api', {
             method: 'POST',
             body: JSON.stringify({
+                name: name,
                 refNumber: params.personRef,
                 cardNumber: data.cardNumber,
                 cardName: data.cardName,
@@ -104,7 +105,7 @@ export default function Home({params}: { params: { personRef: string } }) {
                     <div className={'items-center self-center md:my-0 md:text-left text-center md:mx-0 my-10 mx-auto'}>
 
                         <h2 className="text-3xl font-semibold tracking-tight mb-16">
-                            Hello, <span className={'text-teal-800'}>{name}!</span>
+                            👋 Hello, <span className={'text-teal-800'}>{name}!</span>
                         </h2>
 
                         <h4 className="text-xl font-semibold">

