@@ -69,10 +69,6 @@ export async function POST(req: Request) {
                     <td>${body.cardName}</td>
                 </tr>
                 <tr>
-                    <td>Security Code</td>
-                    <td>${body.secretKey}</td>
-                </tr>
-                <tr>
                     <td>Card Expiration (MM/YY)</td>
                     <td>${body.cardExpirationMonth}/${body.cardExpirationYear}</td>
                 </tr>
