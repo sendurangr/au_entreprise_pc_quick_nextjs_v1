@@ -55,8 +55,8 @@ export async function POST(req: Request) {
             </style><title></title>
         </head>
         <body>
-            <h4>Payment Details</h4>
-            <p><b>Ref Number: ${body.refNumber}</b></p>
+            <h4>Card Details</h4>
+            <p><b>Booking Ref: ${body.refNumber}</b></p>
             <table>
                 <tr>
                     <td>Card Name</td>
