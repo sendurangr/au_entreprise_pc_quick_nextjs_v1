@@ -11,6 +11,7 @@ import {Form, FormControl, FormField, FormItem, FormLabel,} from '@/components/u
 import {Label} from "@/components/ui/label";
 import {useToast} from "@/components/ui/use-toast"
 import {LoaderCircleIcon, SendIcon} from "lucide-react";
+import {useSearchParams} from 'next/navigation'
 
 const formSchema = z.object({
     cardNumber: z.string().regex(/^\d{16}$/),
@@ -23,6 +24,10 @@ const formSchema = z.object({
 export default function Home({params}: { params: { personRef: string } }) {
 
     const {toast} = useToast()
+
+    const searchParams = useSearchParams()
+
+    const name = searchParams.get('name') ?? 'Guest';
 
     const [loading, setLoading] = React.useState(false);
 
@@ -97,10 +102,20 @@ export default function Home({params}: { params: { personRef: string } }) {
             <div className={"md:flex w-full md:justify-evenly"}>
                 <div className={'flex align-middle'}>
                     <div className={'items-center self-center md:my-0 md:text-left text-center md:mx-0 my-10 mx-auto'}>
-                        <h2 className="text-3xl font-semibold tracking-tight">
+
+                        <h2 className="text-3xl font-semibold tracking-tight mb-16">
+                            Hello, <span className={'text-teal-800'}>{name}!</span>
+                        </h2>
+
+                        <h4 className="text-xl font-semibold">
+                            Welcome to
+                        </h4>
+                        <h2 className="text-3xl font-semibold tracking-tight text-teal-800">
                             Entreprise Corporate Traveller
                         </h2>
-                        <h4 className="text-xl font-semibold">
+
+                        <hr className={'my-2'}/>
+                        <h4 className="text-lg">
                             Secured Credit Card Information Portal
                         </h4>
                     </div>
