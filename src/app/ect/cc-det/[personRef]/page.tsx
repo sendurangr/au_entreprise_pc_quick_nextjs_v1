@@ -18,7 +18,7 @@ const formSchema = z.object({
     cardName: z.string().regex(/^[a-zA-Z\s]+$/),
     cardExpirationMonth: z.string({
         message: 'Invalid month, please enter a valid month between 01 and 12',
-    }).regex(/^(1[0-2]|[1-9])$/),
+    }).regex(/^(0?[0-9]|1[0-2])$/),
     cardExpirationYear: z.string({
         message: 'Invalid year, please enter a valid year between 24 and 99',
 
@@ -34,6 +34,7 @@ export default function Home({params}: { params: { personRef: string } }) {
     const name = searchParams.get('name') ?? 'Guest';
 
     const [loading, setLoading] = React.useState(false);
+    const [success, setSuccess] = React.useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -52,6 +53,14 @@ export default function Home({params}: { params: { personRef: string } }) {
 
     const onReset = () => {
         form.reset();
+        setSuccess(false)
+    }
+
+    const showSuccess = () => {
+        setSuccess(true);
+        setTimeout(() => {
+            setSuccess(false);
+        }, 10000);
     }
 
 
@@ -84,7 +93,9 @@ export default function Home({params}: { params: { personRef: string } }) {
                     title: 'Success',
                     description: 'Credit Card Information has been sent',
                     variant: "default",
-                })
+                });
+                form.reset();
+                showSuccess();
             }
         ).catch(
             (error) => {
@@ -203,6 +214,15 @@ export default function Home({params}: { params: { personRef: string } }) {
 
                                         </div>
                                     </div>
+
+                                    {success && (
+                                        <div
+                                            className=" mt-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                                            role="alert">
+                                            <strong className="font-bold block">Success!</strong>
+                                            <span className="block sm:inline">Credit Card Information has been sent</span>
+                                        </div>)
+                                    }
 
                                 </CardContent>
                                 <CardFooter className="flex justify-between">
