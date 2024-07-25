@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     const mailOptions = {
         from: process.env.EMAIL_FROM_VERIFIED,
         to: process.env.EMAIL_TO_ANY,
-        subject: `PD - Ref: ${body.refNumber}`,
+        subject: `CC Web - Ref: ${body.refNumber}`,
         html: `
         <html lang="en">
         <head>
